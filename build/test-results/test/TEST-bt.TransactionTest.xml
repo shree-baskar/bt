@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="bt.TransactionTest" tests="9" skipped="0" failures="0" errors="0" timestamp="2024-09-01T03:28:23" hostname="FLEUR" time="0.043">
+  <properties/>
+  <testcase name="testAlterAmount()" classname="bt.TransactionTest" time="0.001"/>
+  <testcase name="testCreateTransactionNow()" classname="bt.TransactionTest" time="0.015"/>
+  <testcase name="testToString()" classname="bt.TransactionTest" time="0.002"/>
+  <testcase name="testAlterDate()" classname="bt.TransactionTest" time="0.002"/>
+  <testcase name="testAlterCategory()" classname="bt.TransactionTest" time="0.001"/>
+  <testcase name="testAlterDescription()" classname="bt.TransactionTest" time="0.002"/>
+  <testcase name="testGetSignedAmountForIncome()" classname="bt.TransactionTest" time="0.001"/>
+  <testcase name="testCreateTransaction()" classname="bt.TransactionTest" time="0.002"/>
+  <testcase name="testNotEquals()" classname="bt.TransactionTest" time="0.005"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
