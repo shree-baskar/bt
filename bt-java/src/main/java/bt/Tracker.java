@@ -179,6 +179,10 @@ public class Tracker {
 
     private int gatherTotal(Map<Category, List<Transaction>> transactionsByCategory) {
         int total = 0;
+        if (transactionsByCategory == null) {
+            return total;
+        }
+
         for (List<Transaction> transactions : transactionsByCategory.values()) {
             for (Transaction transaction : transactions) {
                 total += transaction.getAmount();
