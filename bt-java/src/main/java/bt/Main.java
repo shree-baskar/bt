@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.Scanner;
 
 public class Main {
@@ -33,35 +34,48 @@ public class Main {
             String[] arguments = input.split("\\s+", 5);
             String action = arguments[0];
 
-            switch(action) {
-                case "q":
-                    System.out.println("Saving and exiting...");
-                    scanner.close();
-                    return;
-                case "h":
-                    System.out.println(helpMsg);
-                    break;
-                case "+":
-                    tracker.addIncome(Double.valueOf(arguments[1]), arguments[4], IncomeCategory.valueOf(arguments[2]), LocalDate.parse(arguments[3]));
-                    break;
-                case "-":
-                    tracker.addExpense(Double.valueOf(arguments[1]), arguments[4], ExpenseCategory.valueOf(arguments[2]), LocalDate.parse(arguments[3]));
-                    break;
-                case "rm":
-                    Main.printOrSave(Boolean.parseBoolean(arguments[3]), () -> tracker.displayConciseMonthlyReport(Integer.valueOf(arguments[1]), Integer.valueOf(arguments[2])));
-                    break;
-                case "ry":
-                    Main.printOrSave(Boolean.parseBoolean(arguments[2]), () -> tracker.displayConciseYearlyReport(Integer.valueOf(arguments[1])));
-                    break;
-                case "rm+":
-                    Main.printOrSave(Boolean.parseBoolean(arguments[3]), () -> tracker.displayMonthlyReport(Integer.valueOf(arguments[1]), Integer.valueOf(arguments[2])));
-                    break;
-                case "ry+":
-                    Main.printOrSave(Boolean.parseBoolean(arguments[2]), () -> tracker.displayYearlyReport(Integer.valueOf(arguments[1])));
-                    break;
-                default:
-                    System.out.println("Please enter a valid action.\n");
-                    break;
+            try {
+                switch(action) {
+                    case "q":
+                        System.out.println("Saving and exiting...");
+                        scanner.close();
+                        return;
+                    case "h":
+                        System.out.println(helpMsg);
+                        break;
+                    case "+":
+                        tracker.addIncome(Double.valueOf(arguments[1]), arguments[4], IncomeCategory.valueOf(arguments[2]), LocalDate.parse(arguments[3]));
+                        break;
+                    case "-":
+                        tracker.addExpense(Double.valueOf(arguments[1]), arguments[4], ExpenseCategory.valueOf(arguments[2]), LocalDate.parse(arguments[3]));
+                        break;
+                    case "rm":
+                        Main.printOrSave(Boolean.parseBoolean(arguments[3]), () -> tracker.displayConciseMonthlyReport(Integer.valueOf(arguments[1]), Integer.valueOf(arguments[2])));
+                        break;
+                    case "ry":
+                        Main.printOrSave(Boolean.parseBoolean(arguments[2]), () -> tracker.displayConciseYearlyReport(Integer.valueOf(arguments[1])));
+                        break;
+                    case "rm+":
+                        Main.printOrSave(Boolean.parseBoolean(arguments[3]), () -> tracker.displayMonthlyReport(Integer.valueOf(arguments[1]), Integer.valueOf(arguments[2])));
+                        break;
+                    case "ry+":
+                        Main.printOrSave(Boolean.parseBoolean(arguments[2]), () -> tracker.displayYearlyReport(Integer.valueOf(arguments[1])));
+                        break;
+                    default:
+                        System.out.println("Invalid action.\n");
+                        break;
+                }
+            } catch (NumberFormatException e) {
+                System.out.println("The amount provided is invalid.\n");
+            } catch (IllegalArgumentException e) {
+                System.out.println("Provide a valid category and date.\n");
+            } catch (DateTimeParseException e) {
+                System.out.println("Invalid date format. Use yyyy-MM-dd.\n");
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("Provide all required arguments.\n");
+            } catch (Exception e) {
+                System.out.println("An unexpected error has occured and your last action has not been saved. Please try again later. Exiting...\n");
+                return;
             }
         }
     }

@@ -1,5 +1,6 @@
 package bt;
 
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -62,8 +63,11 @@ public class Tracker {
 
     @SuppressWarnings("unchecked")
     private void loadData() {
+        File data = new File(DATA);
+        if (data.length() == 0) return;
+        
         try (FileInputStream fileIn = new FileInputStream(DATA);
-        ObjectInputStream in = new ObjectInputStream(fileIn)) {
+            ObjectInputStream in = new ObjectInputStream(fileIn)) {
             transactions = (Map<Integer, Map<Integer, Map<Type, Map< Category, List<Transaction>>>>>) in.readObject();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -105,18 +109,18 @@ public class Tracker {
         retMap.put("Income", 0);
         retMap.put("Expenses", 0);
 
-        System.out.println("Monthly Report for " + Month.of(month).name() + " " + year);
+        System.out.println("\nMonthly Report for " + Month.of(month).name() + " " + year);
         System.out.println("--------------------------------------------");
 
         Map<Integer, Map<Type, Map< Category, List<Transaction>>>> yearTransactions = transactions.get(year);
         if (yearTransactions == null) {
-            System.out.println("\nNo transactions for the year " + year);
+            System.out.println("\nNo transactions for the year " + year + '\n');
             return retMap;
         }
 
         Map<Type, Map<Category, List<Transaction>>> monthTransactions = yearTransactions.get(month);
         if (monthTransactions == null) {
-            System.out.println("\nNo transactions for the month " + Month.of(month));
+            System.out.println("\nNo transactions for the month " + Month.of(month) + '\n');
             return retMap;
         }
 
@@ -138,10 +142,10 @@ public class Tracker {
             System.out.println("\nEXPENSES:");
             System.out.println("--------------------------------------------");
             expenseTotal = displayByCategory(expensesByCategory);
-            System.out.println("--------------------------------------------");
+            System.out.println("--------------------------------------------\n");
         }
 
-        System.out.println("\nTotal income: " + incomeTotal + "\nTotal expenses: " + expenseTotal + "\nNet Income: " + (incomeTotal - expenseTotal));
+        System.out.println("\nTotal income: " + incomeTotal + "\nTotal expenses: " + expenseTotal + "\nNet Income: " + (incomeTotal - expenseTotal) + "\n\n");
         retMap.put("Income", incomeTotal);
         retMap.put("Expenses", expenseTotal);
         return retMap;
@@ -154,7 +158,7 @@ public class Tracker {
      */
     private int displayByCategory(Map<Category, List<Transaction>> transactionsByCategory) {
         if (transactionsByCategory == null) {
-            System.out.println("No transactions found.");
+            System.out.println("No transactions found.\n");
             return 0;
         }
 
@@ -163,7 +167,7 @@ public class Tracker {
             System.out.println(category.getName() + ":");
             List<Transaction> categoryTransactions = transactionsByCategory.get(category);
             if (categoryTransactions == null) {
-                System.out.println("No transactions for this category");
+                System.out.println("No transactions for this category\n");
                 continue;
             }
 
@@ -216,12 +220,12 @@ public class Tracker {
         }
 
         System.out.println("\n--------------------------------------------");
-        System.out.println("--------------------------------------------");
+        System.out.println("--------------------------------------------\n");
         System.out.println("Average Income: " + (totalIncome / NUM_MONTHS)
             + "\nAverage Expenses: " + (totalExpenses / NUM_MONTHS)
             + "\nTotal Income: " + totalIncome
             + "\nTotal Expenses: " + totalExpenses
-            + "\nNet Income: " + (totalIncome - totalExpenses));
+            + "\nNet Income: " + (totalIncome - totalExpenses) + "\n\n");
     }
 
     /**
