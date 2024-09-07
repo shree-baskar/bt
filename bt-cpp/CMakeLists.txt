@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 set(SOURCES
     src/main.cpp
     src/Transaction.cpp
+    src/Tracker.cpp
 )
 
 add_executable(bt-cpp ${SOURCES})

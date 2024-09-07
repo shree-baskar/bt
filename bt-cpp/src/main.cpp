@@ -1,6 +1,8 @@
 #include "Transaction.h"
+#include "Tracker.h"
 #include <iostream>
 #include <assert.h>
+#include <format>
 
 int main() {
     ///////// TEST TRANSACTION //////////
@@ -19,6 +21,14 @@ int main() {
     assert(transaction.getCategory() == Category::EDUCATION);
 
     ///////// TEST TRACKER //////////
+    Tracker tracker;
+    tracker.addIncome(5000.0, "Salary", Category::SALARY, std::chrono::system_clock::now());
+    tracker.addExpense(100.0, "Groceries", Category::GROCERIES, std::chrono::system_clock::now());
+
+    tracker.displayMonthlyReport(9, 2024);
+    tracker.displayConciseMonthlyReport(9, 2024);
+    tracker.displayYearlyReport(2024);
+    tracker.displayConciseYearlyReport(2024);
 
     return 0;
 }
